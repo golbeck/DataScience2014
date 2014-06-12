@@ -88,5 +88,32 @@ results = myResults["statuses"]
 #print results[0]["text"]
 #print results[2]["text"]
 #print results[5]["text"]
-for i in range(10):
-	print results[i]["text"]
+#for i in range(10):
+#	print results[i]["text"]
+	
+	
+###############################################
+#build dictionary
+afinnfile = open("AFINN-111.txt")
+scores = {}
+for line in afinnfile:
+    term, score  = line.split("\t") 
+    scores[term] = float(score)
+#print scores.items()
+
+###############################################
+#read in tweets and save into a dictionary
+atweetfile = open("output.txt")
+tweets = []
+for line in atweetfile:
+    try:
+        tweets.append(json.loads(line))
+    except:
+        pass
+            
+print len(tweets)
+tweet = tweets[0]
+print type(tweet)
+print tweet.keys()
+print type(tweet["text"])
+print tweet["text"]

@@ -65,8 +65,10 @@ def main():
 #                    sys.stdout.write(str(words_new_scores[everyword])+'\n')
                 
     for item in words_new:
-        scores[item]=round(words_new_scores[item]/words_new_count[everyword])
-        sys.stdout.write(item + '' + str(scores[item]) + '\n')
+        scores[item]=int(round(words_new_scores[item]/words_new_count[everyword]))
+#	sys.stdout.write(str(item) + ' ' + str(words_new_scores[item]) + '\n')
+#	sys.stdout.write(str(item) + ' ' + str(words_new_count[item]) + '\n')
+        sys.stdout.write(str(item) + ' ' + str(scores[item]) + '\n')
 #        
 	
 

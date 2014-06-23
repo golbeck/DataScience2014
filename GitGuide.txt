@@ -12,3 +12,9 @@
 
 *to send the files to the repository
     git push origin master
+    
+*to update files on local machine to the latest version in the master repository
+    git pull origin master
+    
+*to see what the remote repository is
+    git remote -v

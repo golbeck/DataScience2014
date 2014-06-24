@@ -49,8 +49,6 @@ def main():
                     words_new.append(everyword)
                     words_new_scores[everyword]=0
                     words_new_count[everyword]=0
-        #output individual tweet sentiment
-#        sys.stdout.write(str(total) + '\n')
         #compute sentiment of tweet using existing dictionary            
         tot_sentiment.append(total)
         #set current tweet sentiment to words not in dictionary
@@ -61,15 +59,10 @@ def main():
                     words_new_scores[everyword] += total
                     words_new_count[everyword] += 1
                     word_ind[everyword]=1
-#                    sys.stdout.write(everyword)
-#                    sys.stdout.write(str(words_new_scores[everyword])+'\n')
                 
     for item in words_new:
         scores[item]=int(round(words_new_scores[item]/words_new_count[everyword]))
-#	sys.stdout.write(str(item) + ' ' + str(words_new_scores[item]) + '\n')
-#	sys.stdout.write(str(item) + ' ' + str(words_new_count[item]) + '\n')
         sys.stdout.write(str(item) + ' ' + str(scores[item]) + '\n')
-#        
 	
 
 if __name__ == '__main__':

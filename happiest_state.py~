@@ -18,67 +18,62 @@ def fetchsamples():
     return tweet_text
 ###############################################    
 def fetch_loc():    
+    #open file of tweet
     tweet_file = open(sys.argv[2])
+    #text in the tweet file
+    tweet_text=fetchsamples()
     tweet_loc = []
-    
-    sent_dict=build_dict()
-#    print sent_dict
-    
+    #sentiment dictionary
+    scores=build_dict()
+    #state dictionary
     state_dict=build_state_dict()
-#    print state_dict
-    
+    state_sentiment={}
+    state_count={}
+    #for each state, initialize the sentiment to 0
+    for item in state_dict:
+        state_sentiment[item]=0
+    #for each state, initialize the counter to 0
+    for item in state_dict:
+        state_count[item]=0
+        
+    #get locations for the tweets
     for line in tweet_file:
-
         try:
             location=json.loads(line)['user']['location'].encode('utf-8')
             place=str(json.loads(line)['place'])
             
             if len(location) != 0:
                 tweet_loc.append(location)
-#                print location
             elif place != "None":
                 tweet_loc.append(place)
-#                print place
             else:
                 tweet_loc.append("None")
-#                print "None"
-                
-#            
-#            print type(location)
-#            if len(location) != 0:
-#                print location
-#                temp=location.split()
-#                for item in temp:
-#                    print item.rstrip(',.')
-#            else:
-#                print "No user location specified"
-#                
-#            place=str(json.loads(line)['place'])
-#            if str(place) != "None":
-#                print str(place)
-#            else:
-#                print "No place specified"
-#                                
-#            tweet_loc.append(json.loads(line)["text"].encode('utf-8'))
-#            sys.stdout.write('test' + '\n')
-#            sys.stdout.write(str(json.loads(line)["place"].encode('utf-8')) + '\n')
         except:
             pass
             
-        
-#        print len(tweet_loc)
-        for item in tweet_loc:
-            words=item.split()  
-            for word in words:
-                word=word.rstrip(',.')
-                if word in state_dict.keys():
-#                    tweet_loc[item]=state_dict[word]
-                    print state_dict[word]
-                else:
-                    print "not US tweet"
-         
-        print tweet_loc
+    #use list to determine if tweet ocurred in US state    
+    for i in range(0,len(tweet_loc)):
+        words=tweet_loc[i].split()  
+        for word in words:
+            word=word.rstrip(',.')
+            #if a US state is in the location, perform sentiment analysis
+            if word in state_dict:
+                state_sentiment[word]+=sentiment(scores,tweet_text[i])
+                state_count[word]+=1
+                break
                 
+    #compute average sentiment score for each state
+    for i in state_dict:
+        if state_count[i]>0:
+            state_sentiment[i]=float(state_sentiment[i])/state_count[i]
+#        sys.stdout.write(str(i) + ' ' + str(state_sentiment[i]) + '\n')   
+#        sys.stdout.write(str(i) + ' ' + str(state_count[i]) + '\n')    
+    
+    state_sentiment_sort= sorted(state_sentiment, key=state_sentiment.get, reverse=True)       
+    print state_sentiment_sort 
+    for i in state_sentiment_sort: 
+#        sys.stdout.write(str(i) + ' ' + str(state_sentiment[i]) + '\n')    
+        sys.stdout.write(str(i) + '\n')    
         
     return tweet_loc
 ###############################################    
@@ -90,26 +85,37 @@ def build_dict():
   		scores[term] = float(score)
     return scores
 ###############################################    
+#dictionary of state abbreviations
 def build_state_dict():
-    statesfile = open(sys.argv[3])
-    state_dict = {}
-    for line in statesfile:
-  		state1, state2  = line.split("\t") 
-  		state_dict[state1] = state2.rstrip('\n')
+#    statesfile = open(sys.argv[3])
+#    state_dict = {}
+#    for line in statesfile:
+#  		state1, state2  = line.split("\t") 
+#  		state_dict[state1] = state2.rstrip('\n')
+#    return state_dict
+    state_dict={'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME','MD','MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'}
     return state_dict
+###############################################   
+#return a list of tweet text samples 
+def fetchsamples():    
+    tweet_file = open(sys.argv[2])
+    tweet_text = []
+    for line in tweet_file:
+        try:
+            tweet_text.append(json.loads(line)["text"].encode('utf-8'))
+        except:
+            pass
+    return tweet_text    
 ###############################################    
+#perform sentiment analysis on a single tweet
 def sentiment(scores,tweet_text):
-    tot_sentiment=[]
-    for item in tweet_text:
-        words = []
-        words = item.split()
-        total = 0
-        for everyword in words:
-            if everyword in scores.keys():                           
-                total += scores[everyword]
-        tot_sentiment.append(total)
-#        sys.stdout.write(str(total) + '\n')
-    return tot_sentiment
+    words=[]
+    words = tweet_text.split()
+    total = 0
+    for everyword in words:
+        if everyword in scores.keys():                           
+            total += scores[everyword]
+    return total
 ###############################################
 def main():
     afinnfile = open(sys.argv[1])
@@ -118,19 +124,8 @@ def main():
     lines(afinnfile)
     lines(tweet_file)    
     ###############################################
-    #build dictionary
-    scores=build_dict()
-    ###############################################
-    #read-in tweets
-    tweet_text=fetchsamples()
-    ###############################################
-    #read-in tweet location    
+    #output sentiment scores for each state   
     tweet_loc=fetch_loc()
-#    print type(tweet_loc)
-#    print tweet_loc[0] 
-    ###############################################
-    #perform sentiment analysis   
-    tot_sentiment=sentiment(scores,tweet_text)	
 
 if __name__ == '__main__':
     main()

@@ -8,10 +8,8 @@ def lines(fp):
     print str(len(fp.readlines()))
 
 def main():
-    sent_file = open(sys.argv[1])
-    tweet_file = open(sys.argv[2])
+    tweet_file = open(sys.argv[1])
     hw()
-    lines(sent_file)
     lines(tweet_file)    
     ###############################################
     atweetfile = open(sys.argv[1])
@@ -27,22 +25,22 @@ def main():
     for item in tweet_text:
         words = []
         words = item.split()
-        #dictionary to track if a word is in the dic
-        word_ind = {}
         for everyword in words:
             total += 1
             if everyword in words_count.keys():                           
-                word_count[everyword] += 1
+                words_count[everyword] += 1
             #if word is not in the list of words, add it and initialize counters
             elif everyword not in words_count:	
-		        words_count.append(everyword)
-                words_count[everyword]=0
+		        words_count[everyword]=1
+		        
     #dictionary of frequencies
     freq = {}          
     for item in words_count:
-        freq[item]=words_count[item]/total
+        freq[item]=float(words_count[item])/total
+        sys.stdout.write(str(item) + ' ' + str(words_count[item]) + '\n')
         sys.stdout.write(str(item) + ' ' + str(freq[item]) + '\n')
-	print str(len(words_count))
+        
+    print str(total)
 
 if __name__ == '__main__':
     main()

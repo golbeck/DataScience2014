@@ -36,8 +36,8 @@ def main():
     #dictionary of frequencies
     freq = {}          
     for item in words_count:
-        freq[item]=words_count[item]/total
-        sys.stdout.write(str(item) + ' ' + str(words_count[item]) + '\n')
+        freq[item]=float(words_count[item])/total
+#        sys.stdout.write(str(item) + ' ' + str(words_count[item]) + '\n')
         sys.stdout.write(str(item) + ' ' + str(freq[item]) + '\n')
         
     print str(total)

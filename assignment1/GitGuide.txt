@@ -1,0 +1,20 @@
+*to add a single file:
+    git add <file.extension>
+    
+*to add all files:
+    git add -A
+    
+*to commit a file(s)
+    git commit -m "message" file
+    
+*to commit everything
+    git commit -m "message"
+
+*to send the files to the repository
+    git push origin master
+    
+*to update files on local machine to the latest version in the master repository
+    git pull origin master
+    
+*to see what the remote repository is
+    git remote -v

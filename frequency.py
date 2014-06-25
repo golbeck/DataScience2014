@@ -1,16 +1,8 @@
 import sys
 import json
 
-def hw():
-    print 'Hello, world!'
-
-def lines(fp):
-    print str(len(fp.readlines()))
-
 def main():
     tweet_file = open(sys.argv[1])
-    hw()
-    lines(tweet_file)    
     ###############################################
     atweetfile = open(sys.argv[1])
     tweet_text = []
@@ -40,7 +32,6 @@ def main():
 #        sys.stdout.write(str(item) + ' ' + str(words_count[item]) + '\n')
         sys.stdout.write(str(item) + ' ' + str(freq[item]) + '\n')
         
-    print str(total)
 
 if __name__ == '__main__':
     main()

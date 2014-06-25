@@ -13,7 +13,7 @@ def hashtag_analysis():
             hashtag = json.loads(line)['entities']['hashtags']
             if len(hashtag) != 0:
                 for i in range(0,len(hashtag)-1):
-                    word=hashtag[i]['text'].encode('utf-8').lower()
+                    word=hashtag[i]['text'].encode('utf-8')
                     if word in hashtags:
                         hashtags[word]+=1.0
                     else:
@@ -23,7 +23,8 @@ def hashtag_analysis():
               
     hashtags_sort= sorted(hashtags, key=hashtags.get, reverse=True) 
     for i in range(0,10):   
-        sys.stdout.write(str(hashtags_sort[i]) + ' ' + str(hashtags[hashtags_sort[i]]) + '\n')    
+        temp=hashtags_sort[i]
+        sys.stdout.write(str(temp) + ' ' + str(hashtags[temp]) + '\n')    
         
     return hashtags_sort
 ###############################################

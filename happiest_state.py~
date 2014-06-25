@@ -1,11 +1,5 @@
 import sys
 import json
-###############################################
-def hw():
-    print 'Hello, world!'
-###############################################
-def lines(fp):
-    print str(len(fp.readlines()))
 ###############################################    
 def fetchsamples():    
     tweet_file = open(sys.argv[2])
@@ -66,11 +60,9 @@ def fetch_loc():
     for i in state_dict:
         if state_count[i]>0:
             state_sentiment[i]=float(state_sentiment[i])/state_count[i]
-#        sys.stdout.write(str(i) + ' ' + str(state_sentiment[i]) + '\n')   
-#        sys.stdout.write(str(i) + ' ' + str(state_count[i]) + '\n')    
     
-    state_sentiment_sort= sorted(state_sentiment, key=state_sentiment.get, reverse=True)       
-    print state_sentiment_sort 
+    #sort the dictionary from most to least happy state
+    state_sentiment_sort= sorted(state_sentiment, key=state_sentiment.get, reverse=True)   
     for i in state_sentiment_sort: 
 #        sys.stdout.write(str(i) + ' ' + str(state_sentiment[i]) + '\n')    
         sys.stdout.write(str(i) + '\n')    
@@ -87,12 +79,6 @@ def build_dict():
 ###############################################    
 #dictionary of state abbreviations
 def build_state_dict():
-#    statesfile = open(sys.argv[3])
-#    state_dict = {}
-#    for line in statesfile:
-#  		state1, state2  = line.split("\t") 
-#  		state_dict[state1] = state2.rstrip('\n')
-#    return state_dict
     state_dict={'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME','MD','MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'}
     return state_dict
 ###############################################   
@@ -120,9 +106,6 @@ def sentiment(scores,tweet_text):
 def main():
     afinnfile = open(sys.argv[1])
     tweet_file = open(sys.argv[2])
-    hw()
-    lines(afinnfile)
-    lines(tweet_file)    
     ###############################################
     #output sentiment scores for each state   
     tweet_loc=fetch_loc()

@@ -41,9 +41,6 @@ def sentiment(scores,tweet_text):
 def main():
     afinnfile = open(sys.argv[1])
     tweet_file = open(sys.argv[2])
-    hw()
-    lines(afinnfile)
-    lines(tweet_file)    
     ###############################################
     #build dictionary
     scores=build_dict()

@@ -1,11 +1,5 @@
 import sys
 import json
-###############################################
-def hw():
-    print 'Hello, world!'
-###############################################
-def lines(fp):
-    print str(len(fp.readlines()))
 ###############################################    
 def fetchsamples():    
     tweet_file = open(sys.argv[2])
@@ -69,10 +63,10 @@ def fetch_loc():
     
     #sort the dictionary from most to least happy state
     state_sentiment_sort= sorted(state_sentiment, key=state_sentiment.get, reverse=True)   
-    for i in state_sentiment_sort: 
-#        sys.stdout.write(str(i) + ' ' + str(state_sentiment[i]) + '\n')    
-        sys.stdout.write(str(i) + '\n')    
-        
+#    for i in state_sentiment_sort: 
+##        sys.stdout.write(str(i) + ' ' + str(state_sentiment[i]) + '\n')    
+#        sys.stdout.write(str(i) + '\n')    
+    sys.stdout.write(str(state_sentiment_sort[0]) + '\n')     
     return tweet_loc
 ###############################################    
 def build_dict():
@@ -112,9 +106,6 @@ def sentiment(scores,tweet_text):
 def main():
     afinnfile = open(sys.argv[1])
     tweet_file = open(sys.argv[2])
-    hw()
-    lines(afinnfile)
-    lines(tweet_file)    
     ###############################################
     #output sentiment scores for each state   
     tweet_loc=fetch_loc()

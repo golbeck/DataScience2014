@@ -23,11 +23,14 @@ def hashtag_analysis():
               
     hashtags_sort= sorted(hashtags, key=hashtags.get, reverse=True)
     n=len(hashtags_sort)
-    for i in range(0,min(10,n)):   
+    m=min(9,n-1)
+    for i in range(0,m):   
         temp=hashtags_sort[i]
-        sys.stdout.write(str(temp) + ' ' + str(hashtags[temp]) + '\n')    
+        sys.stdout.write(str(temp) + ' ' + str(int(hashtags[temp])) + '\n')
 
-    return hashtags_sort
+    temp=hashtags_sort[m]
+    sys.stdout.write(str(temp) + ' ' + str(int(hashtags[temp])))
+#    return hashtags_sort
 ###############################################
 def main():
     hashtag_analysis()

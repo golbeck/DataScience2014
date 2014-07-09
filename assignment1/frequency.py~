@@ -23,8 +23,8 @@ def main():
                 words_count[everyword] += 1
             #if word is not in the list of words, add it and initialize counters
             elif everyword not in words_count:	
-                words_count[everyword]=1
-
+		        words_count[everyword]=1
+		        
     #dictionary of frequencies
     freq = {}          
     for item in words_count:

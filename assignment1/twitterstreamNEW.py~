@@ -58,36 +58,28 @@ def twitterreq(url, method, parameters):
 
 #for more details on querying twitter see:
 #https://dev.twitter.com/docs/api/1.1/get/search/tweets
-def fetchsamples(feed,max_id):
+def fetchsamples(feed,since_id):
     url1 = "https://api.twitter.com/1.1/search/tweets.json?q="
     url=url1+feed
 #    url=url+'&until='+date_id
     url=url+'&count=100'
     if len(since_id)>0:
-        url=url+'&max_id='+max_id
+        url=url+'&since_id='+since_id
 #    url=url+'&max_id=485130031866580992'
     parameters = []
     response = twitterreq(url, "GET", parameters)
     return json.load(response)
 
 #example
-max_id=''
-response=fetchsamples('@cnbc',max_id)
+since_id=''
+response=fetchsamples('@cnbc',since_id)
 print type(response)
 print response.keys()
 DF0=DataFrame(response['statuses'])
 m=len(DF0.index)
 n=len(DF0.columns)
-m=0
-DF0=DataFrame({})
-since_id=''
-while m<3200:
-    response=fetchsamples('@cnbc',str(max_id))
-    DF=DataFrame(response['statuses'])
-    max_id=DF.ix[max,'id']
-    DF0=DF0.append(DF)
-#for i in range(m):
-#    print DF0.ix[i,'text']
+for i in range(m):
+    print DF0.ix[i,'text']
 
 
 

@@ -22,7 +22,7 @@ def reducer(key, list_of_values):
     # key: word
     # value: list of occurrence counts
     temp=[]
-    temp.append(key)
+#    temp.append(key)
     for v in list_of_values:
         temp.append(v)
     mr.emit((key, temp))

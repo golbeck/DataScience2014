@@ -1,5 +1,7 @@
 import MapReduce
 import sys
+import pandas as pd
+from pandas import DataFrame
 
 """
 Word Count Example in the Simple Python MapReduce Framework
@@ -21,9 +23,12 @@ def mapper(record):
 def reducer(key, list_of_values):
     # key: word
     # value: list of occurrence counts
-    temp=[]
+    temp=DataFrame()
+
 #    temp.append(key)
     for v in list_of_values:
+        
+    temp2=[record[i].encode('utf8') for i in range(0,len(record))]
         temp.append(v)
     mr.emit((key, temp))
 

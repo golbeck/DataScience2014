@@ -1,5 +1,7 @@
 import MapReduce
 import sys
+import pandas as pd
+from pandas import DataFrame, Series
 
 """
 Word Count Example in the Simple Python MapReduce Framework
@@ -19,17 +21,19 @@ def mapper(record):
     mr.emit_intermediate(order_id,attributes)
 
 def reducer(key, list_of_values):
-    temp2=[]
-    temp3=[]
+    
+    line_item_df=DataFrame()
+    order_df=DataFrame()
+    
     for v in list_of_values:
-        if v[0]=='order':
-            temp3.extend(v)
+        if v[0]=='line_item':
+            line_item_df[v[1]]=v
         else:
-            temp4=[]
-            temp4.extend(temp3)
-            temp4.extend(v)
-            temp2.append(temp4)
-    mr.emit(temp2)
+            order_df[v[1]]=v
+        
+    temp=pd.concat([order_df,line_item_df])
+    temp4=[list(x) for x in temp.T.itertuples()]
+    mr.emit((key, temp4[0][1:]))
 
 # Do not modify below this line
 # =============================
